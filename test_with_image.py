@@ -49,7 +49,7 @@ model = load_model(model, trained_model_path)
 model = model.to(device)
 model.eval()
 
-image_path = '/home/haoxue/Pictures/face.jpg'
+image_path = '/media/haoxue/WD/FaceBoxes.PyTorch/data/FDDB/images/2002/08/26/big/img_265.jpg'
 img = np.float32(cv2.imread(image_path, cv2.IMREAD_COLOR))
 im_height, im_width, _ = img.shape
 
@@ -79,7 +79,7 @@ scores = scores[inds]
 # print('boxes', boxes)
 
 # keep top-K before NMS
-order = scores.argsort()[::-1][:5]
+order = scores.argsort()[::-1][:5000]
 boxes = boxes[order]
 scores = scores[order]
 
@@ -91,11 +91,6 @@ dets = dets[keep, :]
 # keep top-K faster NMS
 dets = dets[:750, :]
 
-# print('boxes_list',boxes_list)
-# dets = np.hstack((boxes, scores[:, np.newaxis])).astype(np.float32, copy=False)
-# print('dets', dets)
-# dets = dets[:5, :]
-# print('dets[:5, :]', dets)
 for k in range(dets.shape[0]):
     xmin = dets[k, 0]
     ymin = dets[k, 1]
